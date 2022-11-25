@@ -1,0 +1,7 @@
+1# TAKTYKA TORNADO:
+    Robot kręci się z dookoła do momentu aż zobaczy przeciwnika.
+
+2# TAKTYKA ZMIOTA:
+    Robot jedzie do przodu nie napełnym wypełnieniu do momentu w którym zobaczy linie.
+    Jeżeli robot zobaczy linie odwraca się i wraca do jazdy do przodu. Jeżeli zobaczy przeciwnika 
+    dostaje pełne wypełnienie.
