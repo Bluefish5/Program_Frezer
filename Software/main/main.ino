@@ -18,19 +18,28 @@
 
 void motors_stop()                      
 {
-    analogWrite(P_P, LOW);
-    analogWrite(P_T, LOW);
-    analogWrite(L_P, LOW);
-    analogWrite(L_T, LOW);
+    digitalWrite(P_P, LOW);
+    digitalWrite(P_T, LOW);
+    digitalWrite(L_P, LOW);
+    digitalWrite(L_T, LOW);
 }
 
-void rotation(int speed) //obrut zgodnie z ruchem wskazuwek zegara
+void rotation_clock_wise(int speed)
 {
     motors_stop();
     digitalWrite(P_P, LOW);
     analogWrite(P_T, speed);
     analogWrite(L_P, speed);
     digitalWrite(L_T, LOW);
+    delay(10);
+}
+void rotation_ant_clock_wise(int speed) 
+{
+    motors_stop();
+    digitalWrite(P_T, LOW);
+    analogWrite(P_P, speed);
+    analogWrite(L_T, speed);
+    digitalWrite(L_P, LOW);
     delay(10);
 }
 
@@ -47,9 +56,9 @@ void forward(int speed)
 void revers(int speed) 
 {
     motors_stop();
-    analogWrite(P_P, LOW);
+    digitalWrite(P_P, LOW);
     analogWrite(P_T, speed);
-    analogWrite(L_P, LOW);
+    digitalWrite(L_P, LOW);
     analogWrite(L_T, speed);
 }
 
@@ -89,8 +98,15 @@ void loop() {
             taktyka += 1;
             delay(100);
         }
+        if(digitalRead(minus) == LOW)             
+        {      
+            taktyka -= 1;
+            delay(100);
+        }
+
         if(taktyka == 3)taktyka = 1;
-        else if(taktyka == 0)taktyka = 2;      
+        else if(taktyka == 0)taktyka = 2;  
+
         if(taktyka == 1) led_off();
         else led_on();    
     }
@@ -102,7 +118,7 @@ void loop() {
           while(digitalRead(starter) == HIGH)// 1# TAKTYKA TORNADO
           {
              if((wenglor_przod_ADC <400) && (wenglor_przod_ADC >200))forward(255);
-             else rotation();
+             else rotation_clock_wise(180);
           }
           break;
         case 2:
@@ -113,13 +129,23 @@ void loop() {
               forward(180);
               if(digitalRead(linia_przednia_prawa)==HIGH)
               {
-                rotation()
-                delay(60);
+                rotation_ant_clock_wise(255)
+                delay(100);
               }
               if(digitalRead(linia_przednia_lewa)==HIGH)
               {
-                rotation()
-                delay(60);
+                rotation_ant_clock_wise(255)
+                delay(100);
+              }
+              if(digitalRead(wenglor_lewy)==HIGH)
+              {
+                rotation_ant_clock_wise(255);
+                delay(10);
+              }
+              if(digitalRead(wenglor_prawy)==HIGH)
+              {
+                rotation_clock_wise(255);
+                delay(10);
               }
             }
           }
